@@ -7,7 +7,7 @@
       "ogp": {
         "title": "Six N. Five | Ezequiel Pini's Art studio creating Imaginary realities.",
         "description": "Ezequiel Pini, aka Six N. Five, is a designer and digital artist known for his innovative and pioneering use of 3D technologies. For more than a decade, Pini's art has created surreal, dreamlike worlds and poetic compositions that transcend traditional boundaries.",
-        "image": ""
+        "image": "https://sixnfive.com/wp-content/themes/sixnfive/images/logo.png"
       }
     },
     {
@@ -27,7 +27,7 @@
       "ogp": {
         "title": "Work",
         "description": "Portraits of unbuilt architecture",
-        "image": ""
+        "image": "https://www.mir.no/proxy-image/original/https%3A%2F%2Fcdn.prod.website-files.com%2F650422598ea20fbf673bad15%2F684c09830e68f6f2bb6c04f3_mir-logo.avif"
       }
     },
     {
@@ -77,7 +77,7 @@
       "ogp": {
         "title": "Analog Studio | Independent Creative VFX Studio London",
         "description": "Analog is a London-based VFX studio creating groundbreaking visual effects and real-time experiences. Award-winning, collaborative, and innovative.",
-        "image": "https://iad.microlink.io/b6R0f7CUo-eqUyDI27EvIMt6UHMOlOtQ2NLkR2UOGfGCPEbYWaRRJTxgVp07V6jT0YzkwLNRY7fJzKkeMv67FQ.png"
+        "image": "https://analogstudio.co.uk/wp-content/uploads/2025/09/121030_Analog_Logo_Black.png"
       }
     },
     {
@@ -107,7 +107,7 @@
       "ogp": {
         "title": "Bloomimages - Architecture Visualization",
         "description": "Images of the future. Architecture visualization, Real Estate Marketing, product visualization, Hamburg + Berlin",
-        "image": ""
+        "image": "https://www.bloomimages.de/wp-content/themes/bloomimages-child/img/logo.png"
       }
     },
     {
@@ -117,7 +117,7 @@
       "ogp": {
         "title": "Architectural Visualization Studio - Beauty & The Bit",
         "description": "B&TB is an Architectural Visualization studio. We work around the world for the finest architecture studios. Do you want to see our work?",
-        "image": "https://iad.microlink.io/QhWd6uooqDOpSYUB7gQyN1CLLLTWNvM8rT8Gal1AM8ZPl1ti9tLltnkS1LOrFX6EBtnvHNs0OiHCi57YIyEU2g.png"
+        "image": "https://beautyandthebit.com/wp-content/uploads/2025/10/LOGO_BTB_COMPACT_COLOR_WEB.png"
       }
     },
     {
@@ -131,5 +131,5 @@
       }
     }
   ],
-  "updated_at": "2026-04-28 18:46 UTC"
+  "updated_at": "2026-04-28 19:43 UTC"
 }
