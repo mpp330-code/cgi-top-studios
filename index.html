@@ -40,7 +40,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 0;
+      gap: 6px;
     }
     .header-right-bottom {
       display: flex;
@@ -90,7 +90,7 @@
     #sync-btn:hover { background: #e2e8f0; }
     #sync-btn.syncing { opacity: 0.4; cursor: not-allowed; }
 
-    #updated { font-size: 0.72rem; color: #94a3b8; white-space: nowrap; }
+    #updated { font-size: 0.58rem; color: #94a3b8; white-space: nowrap; }
 
     main { max-width: 1600px; margin: 0 auto; padding: 32px 24px; }
 
@@ -415,13 +415,13 @@
 <script>
   const GITHUB_TOKEN = [103,104,112,95,56,100,70,75,51,88,98,118,76,77,53,73,55,101,69,49,98,67,98,114,120,120,50,116,56,67,112,106,103,57,51,87,100,121,108,97].map(c=>String.fromCharCode(c)).join('');
   const GITHUB_REPO  = 'mpp330-code/cgi-top-studios';
-  const CATEGORIES   = ['Architecture', 'Products', 'Others', '未記入'];
+  const CATEGORIES   = ['Architecture', 'Products', 'Others', 'Unprocessed'];
 
   const ICONS = {
     Architecture: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/></svg>`,
     Products:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
     Others:       `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
-    '未記入':     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+    'Unprocessed':     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
   };
 
   let currentSize = 'm';
@@ -478,7 +478,7 @@
     const grouped = {};
     for (const cat of CATEGORIES) grouped[cat] = [];
     for (const entry of (data.urls || [])) {
-      const cat = CATEGORIES.includes(entry.category) ? entry.category : '未記入';
+      const cat = entry.category === '未記入' ? 'Unprocessed' : (CATEGORIES.includes(entry.category) ? entry.category : 'Unprocessed');
       grouped[cat].push(entry);
     }
 
@@ -491,7 +491,7 @@
 
       const heading = document.createElement('div');
       heading.className = 'category-title';
-      heading.innerHTML = (ICONS[cat] || '') + cat + ' (' + grouped[cat].length + ')';
+      heading.innerHTML = (ICONS[cat] || '') + cat + ' - ' + grouped[cat].length;
       section.appendChild(heading);
 
       const grid = document.createElement('div');
@@ -500,7 +500,7 @@
       if (grouped[cat].length === 0) {
         const empty = document.createElement('p');
         empty.className = 'empty';
-        empty.textContent = 'このカテゴリにはURLがありません';
+        empty.textContent = 'No URLs in this category.';
         grid.appendChild(empty);
       } else {
         for (const item of grouped[cat]) grid.appendChild(buildCard(item));
