@@ -17,28 +17,36 @@
     header {
       background: #fff;
       color: #4d4d4d;
-      padding: 0 28px;
-      height: 56px;
+      padding: 12px 28px 16px;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: 2px;
       position: sticky;
       top: 0;
       z-index: 100;
-    }
-    header h1 { font-size: 2.65rem; font-weight: 700; letter-spacing: 0.02em; color: #4d4d4d; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; margin-top: 18px; }
-
-    .toolbar {
-      background: #fff;
       border-bottom: 1px solid #e2e8f0;
-      padding: 5px 28px;
+    }
+    .header-top {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .header-bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0;
+    }
+    .header-right-bottom {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      position: sticky;
-      top: 56px;
-      z-index: 99;
+      gap: 14px;
     }
+    header h1 { font-size: 2.65rem; font-weight: 700; letter-spacing: 0.02em; color: #4d4d4d; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; margin-top: 6px; }
 
     .size-switcher {
       display: flex;
@@ -62,7 +70,7 @@
     .size-btn:hover { color: #1a1a2e; background: #e2e8f0; }
     .size-btn.active { background: #1a1a2e; color: #fff; }
 
-    .toolbar-right { display: flex; align-items: center; gap: 14px; margin-left: 20px; }
+    .toolbar-right { display: flex; align-items: center; gap: 14px; }
 
     #sync-btn {
       background: #f1f5f9;
@@ -247,11 +255,10 @@
 
     /* スマホ対応 */
     @media (max-width: 767px) {
-      header { padding: 0 16px; height: 68px; }
-      header h1 { font-size: 1.4rem; margin-top: 8px; }
+      header { padding: 8px 16px; }
+      header h1 { font-size: 1.4rem; margin-top: 0; }
       header h1 span:first-child { font-size: 2.5rem !important; }
       header h1 span:last-child { font-size: 1.55rem !important; }
-      .toolbar { padding: 8px 16px; top: 68px; }
       main { padding: 20px 12px; }
 
       .card-grid { grid-template-columns: 1fr; gap: 10px; }
@@ -267,27 +274,28 @@
 <body>
 
 <header>
-  <h1><span style="font-size: 3.15rem;">CGI</span> <span style="font-size: 1.98rem; white-space: nowrap;">top studios</span></h1>
-  <span id="updated"></span>
+  <div class="header-bottom">
+    <h1><span style="font-size: 3.15rem;">CGI</span> <span style="font-size: 1.98rem; white-space: nowrap;">top studios</span></h1>
+    <div class="header-right">
+      <span id="updated"></span>
+      <div class="header-right-bottom">
+        <div class="size-switcher">
+          <button class="size-btn" data-size="l">L</button>
+          <button class="size-btn active" data-size="m">M</button>
+          <button class="size-btn" data-size="s">S</button>
+          <button class="size-btn" data-size="list">List</button>
+        </div>
+        <button id="sync-btn" title="同期">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 4 23 10 17 10"></polyline>
+          <polyline points="1 20 1 14 7 14"></polyline>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
+      </button>
+      </div>
+    </div>
+  </div>
 </header>
-
-<div class="toolbar">
-  <div class="size-switcher">
-    <button class="size-btn" data-size="l">L</button>
-    <button class="size-btn active" data-size="m">M</button>
-    <button class="size-btn" data-size="s">S</button>
-    <button class="size-btn" data-size="list">List</button>
-  </div>
-  <div class="toolbar-right">
-    <button id="sync-btn" title="同期">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="23 4 23 10 17 10"></polyline>
-        <polyline points="1 20 1 14 7 14"></polyline>
-        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-      </svg>
-    </button>
-  </div>
-</div>
 
 <main>
   <div id="error-msg"></div>
