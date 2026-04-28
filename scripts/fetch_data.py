@@ -30,7 +30,8 @@ def get_messages():
 
 
 def extract_entries(messages):
-    entries = {}
+    """メッセージ一覧からURL+カテゴリを抽出。同じURLは最新のものを優先。"""
+    entries = {}  # url -> entry dict
 
     for msg in sorted(messages, key=lambda m: m.get("send_time", 0)):
         body = msg.get("body", "")
@@ -84,7 +85,23 @@ def fetch_ogp(url, cache):
     except Exception as e:
         print(f"  OGP取得失敗: {url} — {e}")
 
-    # OGP画像がない場合はmicrolinkでスクリーンショットを取得
+    # ② twitter:image を試す
+    if not ogp["image"] and soup:
+        tag = soup.find("meta", attrs={"name": "twitter:image"})
+        if tag and tag.get("content"):
+            ogp["image"] = tag["content"].strip()
+
+    # ③ ページ内の最初の画像を試す
+    if not ogp["image"] and soup:
+        from urllib.parse import urljoin
+        for img in soup.find_all("img", src=True):
+            src = img.get("src", "").strip()
+            if src and not src.startswith("data:") and not src.endswith(".svg"):
+                ogp["image"] = urljoin(url, src)
+                print(f"  ページ内画像を使用: {ogp['image']}")
+                break
+
+    # ④ それでもなければmicrolinkでスクリーンショットを取得
     if not ogp["image"]:
         try:
             ml_resp = requests.get(
@@ -106,6 +123,7 @@ def fetch_ogp(url, cache):
 
 
 def main():
+    # OGPキャッシュを読み込む
     try:
         with open(OGP_CACHE_FILE, encoding="utf-8") as f:
             ogp_cache = json.load(f)
@@ -126,9 +144,11 @@ def main():
             print(f"  取得: {url}")
         entry["ogp"] = fetch_ogp(url, ogp_cache)
 
+    # OGPキャッシュを保存
     with open(OGP_CACHE_FILE, "w", encoding="utf-8") as f:
         json.dump(ogp_cache, f, ensure_ascii=False, indent=2)
 
+    # data.json を保存
     output = {
         "urls": entries,
         "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
