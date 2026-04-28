@@ -91,15 +91,18 @@ def fetch_ogp(url, cache):
         if tag and tag.get("content"):
             ogp["image"] = tag["content"].strip()
 
-    # ③ ページ内の最初の画像を試す
+    # ③ ページ内の2枚目の画像を試す
     if not ogp["image"] and soup:
         from urllib.parse import urljoin
+        count = 0
         for img in soup.find_all("img", src=True):
             src = img.get("src", "").strip()
             if src and not src.startswith("data:") and not src.endswith(".svg"):
-                ogp["image"] = urljoin(url, src)
-                print(f"  ページ内画像を使用: {ogp['image']}")
-                break
+                count += 1
+                if count == 2:
+                    ogp["image"] = urljoin(url, src)
+                    print(f"  ページ内2枚目画像を使用: {ogp['image']}")
+                    break
 
     # ④ それでもなければmicrolinkでスクリーンショットを取得
     if not ogp["image"]:
@@ -151,7 +154,9 @@ def main():
     # data.json を保存
     output = {
         "urls": entries,
-        "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+        "updated_at": datetime.now(timezone.utc).astimezone(
+            __import__('zoneinfo').ZoneInfo("Asia/Tokyo")
+        ).strftime("%Y-%m-%d %H:%M JST"),
     }
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
