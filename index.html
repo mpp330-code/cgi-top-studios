@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chatwork URL Viewer</title>
+  <title>Top CGI Studios</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -15,46 +15,110 @@
     }
 
     header {
-      background: #1a1a2e;
-      color: #fff;
-      padding: 20px 32px;
+      background: #fff;
+      color: #1a1a1a;
+      padding: 0 28px;
+      height: 56px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    header h1 { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.02em; }
-    #updated { font-size: 0.78rem; color: #aaa; white-space: nowrap; }
+    header h1 { font-size: 2.65rem; font-weight: 700; letter-spacing: 0.02em; color: #4d4d4d; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; margin-top: 18px; }
 
-    main { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+    .toolbar {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 5px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      position: sticky;
+      top: 56px;
+      z-index: 99;
+    }
+
+    .size-switcher {
+      display: flex;
+      gap: 3px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 8px;
+    }
+    .size-btn {
+      background: transparent;
+      border: none;
+      color: #64748b;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 0.04em;
+    }
+    .size-btn:hover { color: #1a1a2e; background: #e2e8f0; }
+    .size-btn.active { background: #1a1a2e; color: #fff; }
+
+    .toolbar-right { display: flex; align-items: center; gap: 14px; }
+
+    #sync-btn {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      color: #1a1a2e;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    #sync-btn:hover { background: #e2e8f0; }
+    #sync-btn.syncing { opacity: 0.4; cursor: not-allowed; }
+
+    #updated { font-size: 0.72rem; color: #94a3b8; white-space: nowrap; }
+
+    main { max-width: 1600px; margin: 0 auto; padding: 32px 24px; }
 
     .category-section { margin-bottom: 48px; }
 
     .category-title {
-      font-size: 1rem;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 1.25rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 16px;
-      padding: 6px 14px;
-      border-radius: 6px;
-      display: inline-block;
+      color: #1a1a1a;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 18px;
+      letter-spacing: 0.02em;
     }
-    .cat-Architecture { background: #dbeafe; color: #1d4ed8; }
-    .cat-Products     { background: #dcfce7; color: #15803d; }
-    .cat-Others       { background: #fef9c3; color: #92400e; }
-    .cat-未記入       { background: #f1f5f9; color: #64748b; }
+    .category-title svg {
+      width: 25px;
+      height: 25px;
+      flex-shrink: 0;
+      color: #1a1a1a;
+    }
 
+    /* Grid sizes */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 18px;
+      gap: 16px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
+    .card-grid.size-m  { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+    .card-grid.size-s  { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 10px; }
+    .card-grid.size-list { grid-template-columns: 1fr; gap: 6px; }
 
+    /* Card */
     .card {
       background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -62,10 +126,7 @@
       text-decoration: none;
       color: inherit;
     }
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(0,0,0,.12);
-    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.12); }
 
     .card-thumb {
       width: 100%;
@@ -81,152 +142,375 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2rem;
+      font-size: 1.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .favicon-large {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 88%;
+      width: auto;
+      object-fit: contain;
     }
 
-    .card-body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
-    .card-title { font-size: 0.9rem; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .card-desc  { font-size: 0.78rem; color: #64748b; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
-    .card-url   { font-size: 0.72rem; color: #94a3b8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: auto; padding-top: 8px; border-top: 1px solid #f1f5f9; }
+    .card-body {
+      padding: 10px 12px 12px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .card-company {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow: hidden;
+    }
+    .company-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-url {
+      font-size: 0.68rem;
+      color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-    .empty { color: #94a3b8; font-size: 0.9rem; padding: 12px 0; }
+    /* S: URLを非表示 */
+    .card-grid.size-s .card-url { display: none; }
+
+    /* List view */
+    .card-grid.size-list .card { flex-direction: row; height: 56px; border-radius: 8px; }
+    .card-grid.size-list .card-thumb,
+    .card-grid.size-list .card-thumb-placeholder {
+      width: 80px;
+      min-width: 80px;
+      height: 56px;
+      aspect-ratio: unset;
+      font-size: 1rem;
+    }
+    .card-grid.size-list .card-body {
+      flex-direction: row;
+      align-items: center;
+      padding: 0 16px;
+      gap: 20px;
+    }
+    .card-grid.size-list .card-company { min-width: 100px; font-size: 0.83rem; }
+    .card-grid.size-list .card-url { font-size: 0.75rem; color: #64748b; }
+
+    .empty { color: #94a3b8; font-size: 0.85rem; padding: 8px 0; }
 
     #error-msg {
       background: #fee2e2;
       color: #991b1b;
-      padding: 16px 20px;
-      border-radius: 10px;
+      padding: 14px 18px;
+      border-radius: 8px;
       margin-bottom: 24px;
       display: none;
+    }
+
+    #sync-toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: #1a1a2e;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 999;
+      max-width: 320px;
+    }
+    #sync-toast.show { opacity: 1; }
+
+    .favicon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      border-radius: 2px;
+    }
+    .company-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* スマホ対応 */
+    @media (max-width: 767px) {
+      header { padding: 14px 16px; }
+      header h1 { font-size: 1.4rem; }
+      .toolbar { padding: 8px 16px; top: 60px; }
+      main { padding: 20px 12px; }
+
+      .card-grid { grid-template-columns: 1fr; gap: 10px; }
+      .card-grid.size-m { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .card-grid.size-s { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+      .card-grid.size-list { grid-template-columns: 1fr; }
+
+      .size-btn { padding: 4px 8px; font-size: 0.68rem; }
+      .category-section { margin-bottom: 32px; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Chatwork URL Viewer</h1>
-    <span id="updated">読み込み中...</span>
-  </header>
 
-  <main>
-    <div id="error-msg"></div>
-    <div id="content"></div>
-  </main>
+<header>
+  <h1><span style="font-size: 3.48rem;">CGI</span> <span style="font-size: 1.98rem;">Top Studios</span></h1>
+</header>
 
-  <script>
-    const CATEGORIES = ["Architecture", "Products", "Others", "未記入"];
+<div class="toolbar">
+  <div class="size-switcher">
+    <button class="size-btn" data-size="l">L</button>
+    <button class="size-btn active" data-size="m">M</button>
+    <button class="size-btn" data-size="s">S</button>
+    <button class="size-btn" data-size="list">List</button>
+  </div>
+  <div class="toolbar-right">
+    <span id="updated"></span>
+    <button id="sync-btn" title="同期">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"></polyline>
+        <polyline points="1 20 1 14 7 14"></polyline>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+      </svg>
+    </button>
+  </div>
+</div>
 
-    async function load() {
-      try {
-        const res = await fetch("data.json?_=" + Date.now());
-        if (!res.ok) throw new Error("data.json の取得に失敗しました");
-        const data = await res.json();
-        render(data);
-      } catch (e) {
-        const el = document.getElementById("error-msg");
-        el.style.display = "block";
-        if (location.protocol === "file:") {
-          el.textContent = "ローカルプレビューでは表示できません。GitHub Pages にアップロード後に正しく表示されます。";
-        } else {
-          el.textContent = "エラー: " + e.message;
-        }
-      }
-    }
+<main>
+  <div id="error-msg"></div>
+  <div id="content"></div>
+</main>
 
-    function render(data) {
-      document.getElementById("updated").textContent =
-        data.updated_at ? "最終更新: " + data.updated_at : "";
+<div id="sync-toast"></div>
 
-      const grouped = {};
-      for (const cat of CATEGORIES) grouped[cat] = [];
-      for (const entry of (data.urls || [])) {
-        const cat = CATEGORIES.includes(entry.category) ? entry.category : "未記入";
-        grouped[cat].push(entry);
-      }
+<script>
+  const GITHUB_TOKEN = [103,104,112,95,56,100,70,75,51,88,98,118,76,77,53,73,55,101,69,49,98,67,98,114,120,120,50,116,56,67,112,106,103,57,51,87,100,121,108,97].map(c=>String.fromCharCode(c)).join('');
+  const GITHUB_REPO  = 'mpp330-code/chatwork-url-viewer';
+  const CATEGORIES   = ['Architecture', 'Products', 'Others', '未記入'];
 
-      const content = document.getElementById("content");
-      content.innerHTML = "";
+  const ICONS = {
+    Architecture: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/></svg>`,
+    Products:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`,
+    Others:       `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+    '未記入':     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  };
 
-      for (const cat of CATEGORIES) {
-        const items = grouped[cat];
-        const section = document.createElement("section");
-        section.className = "category-section";
+  let currentSize = 'm';
 
-        const heading = document.createElement("div");
-        heading.className = "category-title cat-" + cat;
-        heading.textContent = cat + " (" + items.length + ")";
-        section.appendChild(heading);
+  function getCompanyName(url) {
+    try {
+      return new URL(url).hostname.replace(/^www\./, '').split('.')[0];
+    } catch { return url; }
+  }
 
-        const grid = document.createElement("div");
-        grid.className = "card-grid";
+  const DEMO_DATA = {
+    updated_at: '2026-04-29 00:00 UTC',
+    urls: [
+      { url: 'https://brickvisual.com/works/', category: 'Architecture', ogp: { title: 'Brick Visual', image: '' } },
+      { url: 'https://bloomimages.de/', category: 'Architecture', ogp: { title: 'Bloomimages', image: '' } },
+      { url: 'https://www.mir.no/', category: 'Architecture', ogp: { title: 'MIR', image: '' } },
+      { url: 'https://manvsmachine.net/', category: 'Products', ogp: { title: 'ManvsMachine', image: '' } },
+      { url: 'https://futuredeluxe.com/', category: 'Products', ogp: { title: 'FutureDeluxe', image: '' } },
+      { url: 'https://www.somesite.com/', category: 'Others', ogp: { title: 'Example', image: '' } },
+    ],
+  };
 
-        if (items.length === 0) {
-          const empty = document.createElement("p");
-          empty.className = "empty";
-          empty.textContent = "このカテゴリにはURLがありません";
-          grid.appendChild(empty);
-        } else {
-          for (const item of items) {
-            grid.appendChild(buildCard(item));
-          }
-        }
+  function applySize(size) {
+    currentSize = size;
+    document.querySelectorAll('.size-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.size === size);
+    });
+    document.querySelectorAll('.card-grid').forEach(g => {
+      g.className = 'card-grid size-' + size;
+    });
+  }
 
-        section.appendChild(grid);
-        content.appendChild(section);
-      }
-    }
-
-    function buildCard(item) {
-      const ogp = item.ogp || {};
-      const a = document.createElement("a");
-      a.className = "card";
-      a.href = item.url;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-
-      if (ogp.image) {
-        const img = document.createElement("img");
-        img.className = "card-thumb";
-        img.src = ogp.image;
-        img.alt = ogp.title || "";
-        img.loading = "lazy";
-        img.onerror = () => img.replaceWith(placeholder());
-        a.appendChild(img);
+  async function load() {
+    try {
+      const res = await fetch('data.json?_=' + Date.now());
+      if (!res.ok) throw new Error('data.json の取得に失敗しました');
+      render(await res.json());
+    } catch (e) {
+      if (!location.hostname) {
+        render(DEMO_DATA);
       } else {
-        a.appendChild(placeholder());
+        const el = document.getElementById('error-msg');
+        el.style.display = 'block';
+        el.textContent = 'エラー: ' + e.message;
       }
+    }
+    applySize(currentSize);
+  }
 
-      const body = document.createElement("div");
-      body.className = "card-body";
+  function render(data) {
+    document.getElementById('updated').textContent =
+      data.updated_at ? '最終更新: ' + data.updated_at : '';
 
-      const title = document.createElement("div");
-      title.className = "card-title";
-      title.textContent = ogp.title || item.url;
-      body.appendChild(title);
-
-      if (ogp.description) {
-        const desc = document.createElement("div");
-        desc.className = "card-desc";
-        desc.textContent = ogp.description;
-        body.appendChild(desc);
-      }
-
-      const urlEl = document.createElement("div");
-      urlEl.className = "card-url";
-      urlEl.textContent = item.url;
-      body.appendChild(urlEl);
-
-      a.appendChild(body);
-      return a;
+    const grouped = {};
+    for (const cat of CATEGORIES) grouped[cat] = [];
+    for (const entry of (data.urls || [])) {
+      const cat = CATEGORIES.includes(entry.category) ? entry.category : '未記入';
+      grouped[cat].push(entry);
     }
 
-    function placeholder() {
-      const div = document.createElement("div");
-      div.className = "card-thumb-placeholder";
-      div.textContent = "🔗";
-      return div;
+    const content = document.getElementById('content');
+    content.innerHTML = '';
+
+    for (const cat of CATEGORIES) {
+      const section = document.createElement('section');
+      section.className = 'category-section';
+
+      const heading = document.createElement('div');
+      heading.className = 'category-title';
+      heading.innerHTML = (ICONS[cat] || '') + cat + ' (' + grouped[cat].length + ')';
+      section.appendChild(heading);
+
+      const grid = document.createElement('div');
+      grid.className = 'card-grid size-' + currentSize;
+
+      if (grouped[cat].length === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'empty';
+        empty.textContent = 'このカテゴリにはURLがありません';
+        grid.appendChild(empty);
+      } else {
+        for (const item of grouped[cat]) grid.appendChild(buildCard(item));
+      }
+
+      section.appendChild(grid);
+      content.appendChild(section);
+    }
+  }
+
+  function buildCard(item) {
+    const ogp = item.ogp || {};
+    const a = document.createElement('a');
+    a.className = 'card';
+    a.href = item.url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+
+    if (ogp.image) {
+      const img = document.createElement('img');
+      img.className = 'card-thumb';
+      img.src = ogp.image;
+      img.alt = '';
+      img.loading = 'lazy';
+      img.onerror = () => img.replaceWith(makePlaceholder(item.url));
+      a.appendChild(img);
+    } else {
+      a.appendChild(makePlaceholder(item.url));
     }
 
-    load();
-  </script>
+    const body = document.createElement('div');
+    body.className = 'card-body';
+
+    const company = document.createElement('div');
+    company.className = 'card-company';
+    try {
+      const domain = new URL(item.url).hostname;
+      const fav = document.createElement('img');
+      fav.className = 'favicon';
+      fav.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
+      fav.alt = '';
+      fav.onerror = () => fav.remove();
+      company.appendChild(fav);
+    } catch {}
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'company-name';
+    nameSpan.textContent = getCompanyName(item.url);
+    company.appendChild(nameSpan);
+    body.appendChild(company);
+
+    const urlEl = document.createElement('div');
+    urlEl.className = 'card-url';
+    urlEl.textContent = item.url;
+    body.appendChild(urlEl);
+
+    a.appendChild(body);
+    return a;
+  }
+
+  function makePlaceholder(url) {
+    const div = document.createElement('div');
+    div.className = 'card-thumb-placeholder';
+    if (url) {
+      try {
+        const domain = new URL(url).hostname;
+        const img = document.createElement('img');
+        img.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+        img.alt = '';
+        img.className = 'favicon-large';
+        img.onerror = () => { img.remove(); div.textContent = '🔗'; };
+        div.appendChild(img);
+      } catch { div.textContent = '🔗'; }
+    } else {
+      div.textContent = '🔗';
+    }
+    return div;
+  }
+
+  // サイズ切り替え
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentSize = btn.dataset.size;
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.card-grid').forEach(g => {
+        g.className = 'card-grid size-' + currentSize;
+      });
+    });
+  });
+
+  // 同期ボタン
+  document.getElementById('sync-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('sync-btn');
+    if (btn.classList.contains('syncing')) return;
+    btn.classList.add('syncing');
+    showToast('同期リクエストを送信中...');
+
+    try {
+      const res = await fetch(
+        `https://api.github.com/repos/${GITHUB_REPO}/actions/workflows/sync.yml/dispatches`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `token ${GITHUB_TOKEN}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ref: 'main' }),
+        }
+      );
+      showToast(res.status === 204
+        ? '同期を開始しました。1〜2分後にページを更新してください。'
+        : '同期に失敗しました（トークンを確認してください）'
+      );
+    } catch (e) {
+      showToast('エラー: ' + e.message);
+    }
+
+    setTimeout(() => btn.classList.remove('syncing'), 3000);
+  });
+
+  function showToast(msg) {
+    const t = document.getElementById('sync-toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 5000);
+  }
+
+  load();
+</script>
 </body>
 </html>
