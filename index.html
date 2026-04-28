@@ -153,6 +153,12 @@
       font-size: 0.82rem;
       font-weight: 700;
       color: #1a1a2e;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow: hidden;
+    }
+    .company-name {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -215,6 +221,30 @@
       max-width: 320px;
     }
     #sync-toast.show { opacity: 1; }
+
+    .favicon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      border-radius: 2px;
+    }
+    .company-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* スマホ対応 */
+    @media (max-width: 767px) {
+      header { padding: 14px 16px; }
+      header h1 { font-size: 1.4rem; }
+      .toolbar { padding: 8px 16px; top: 60px; }
+      main { padding: 20px 12px; }
+
+      .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .card-grid.size-m { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .card-grid.size-s { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+      .card-grid.size-list { grid-template-columns: 1fr; }
+
+      .size-btn { padding: 4px 8px; font-size: 0.68rem; }
+      .category-section { margin-bottom: 32px; }
+    }
   </style>
 </head>
 <body>
@@ -225,8 +255,8 @@
 
 <div class="toolbar">
   <div class="size-switcher">
-    <button class="size-btn active" data-size="l">L</button>
-    <button class="size-btn" data-size="m">M</button>
+    <button class="size-btn" data-size="l">L</button>
+    <button class="size-btn active" data-size="m">M</button>
     <button class="size-btn" data-size="s">S</button>
     <button class="size-btn" data-size="list">List</button>
   </div>
@@ -261,7 +291,8 @@
     '未記入':     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
   };
 
-  let currentSize = 'l';
+  const isMobile = () => window.innerWidth < 768;
+  let currentSize = isMobile() ? 'l' : 'm';
 
   function getCompanyName(url) {
     try {
@@ -362,7 +393,19 @@
 
     const company = document.createElement('div');
     company.className = 'card-company';
-    company.textContent = getCompanyName(item.url);
+    try {
+      const domain = new URL(item.url).hostname;
+      const fav = document.createElement('img');
+      fav.className = 'favicon';
+      fav.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
+      fav.alt = '';
+      fav.onerror = () => fav.remove();
+      company.appendChild(fav);
+    } catch {}
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'company-name';
+    nameSpan.textContent = getCompanyName(item.url);
+    company.appendChild(nameSpan);
     body.appendChild(company);
 
     const urlEl = document.createElement('div');
