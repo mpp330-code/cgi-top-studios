@@ -325,6 +325,16 @@
     ],
   };
 
+  function applySize(size) {
+    currentSize = size;
+    document.querySelectorAll('.size-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.size === size);
+    });
+    document.querySelectorAll('.card-grid').forEach(g => {
+      g.className = 'card-grid size-' + size;
+    });
+  }
+
   async function load() {
     try {
       const res = await fetch('data.json?_=' + Date.now());
@@ -339,6 +349,7 @@
         el.textContent = 'エラー: ' + e.message;
       }
     }
+    applySize(currentSize);
   }
 
   function render(data) {
