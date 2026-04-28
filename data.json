@@ -1,4 +1,135 @@
 {
-  "urls": [],
-  "updated_at": "2026-04-28 18:10 UTC"
+  "urls": [
+    {
+      "url": "https://sixnfive.com/",
+      "category": "Products",
+      "send_time": 1777399955,
+      "ogp": {
+        "title": "Six N. Five | Ezequiel Pini's Art studio creating Imaginary realities.",
+        "description": "Ezequiel Pini, aka Six N. Five, is a designer and digital artist known for his innovative and pioneering use of 3D technologies. For more than a decade, Pini's art has created surreal, dreamlike worlds and poetic compositions that transcend traditional boundaries.",
+        "image": ""
+      }
+    },
+    {
+      "url": "https://futuredeluxe.com/",
+      "category": "未記入",
+      "send_time": 1777400010,
+      "ogp": {
+        "title": "FutureDeluxe",
+        "description": "— Design, technology & imagination. We create aspirational content for future facing brands.",
+        "image": "https://futuredeluxe.com/wp-content/uploads/2023/04/foreverreel_cover1_16x9_01.jpg"
+      }
+    },
+    {
+      "url": "https://www.mir.no/",
+      "category": "Architecture",
+      "send_time": 1777400035,
+      "ogp": {
+        "title": "Work",
+        "description": "Portraits of unbuilt architecture",
+        "image": ""
+      }
+    },
+    {
+      "url": "https://mvsm.com/work",
+      "category": "Products",
+      "send_time": 1777400057,
+      "ogp": {
+        "title": "ManvsMachine",
+        "description": "ManvsMachine — Design & Direction Co.",
+        "image": "https://mvsm.com/assets/images/project/_extraLarge/cover_2025-12-03-122636_xmph.png"
+      }
+    },
+    {
+      "url": "https://www.found-studio.com/",
+      "category": "Products",
+      "send_time": 1777400080,
+      "ogp": {
+        "title": "Found, Extraordinary visual content for the world’s most discerning brands",
+        "description": "Extraordinary visual content for the world’s most discerning brands",
+        "image": "https://d10tb6248ddg7t.cloudfront.net/app/uploads/2025/06/05082948/FOUND_Black-White-Logo_Top_16x9.png"
+      }
+    },
+    {
+      "url": "https://aggressive.tv/",
+      "category": "Products",
+      "send_time": 1777400133,
+      "ogp": {
+        "title": "Aggressive",
+        "description": "",
+        "image": "https://aggressive.tv/app/uploads/2025/09/layer-3-1.jpg"
+      }
+    },
+    {
+      "url": "https://recomfarmhouse.com/",
+      "category": "Products",
+      "send_time": 1777400153,
+      "ogp": {
+        "title": "Recom Farmhouse - CGI and Creative Retouching House",
+        "description": "Recom Farmhouse is one of the world’s leading CGI and creative retouching houses, covering everything from fashion and fine art to full CGI cars and set-builds",
+        "image": "https://recomfarmhouse.com/recom.jpg"
+      }
+    },
+    {
+      "url": "https://analogstudio.co.uk/",
+      "category": "Products",
+      "send_time": 1777400172,
+      "ogp": {
+        "title": "Analog Studio | Independent Creative VFX Studio London",
+        "description": "Analog is a London-based VFX studio creating groundbreaking visual effects and real-time experiences. Award-winning, collaborative, and innovative.",
+        "image": ""
+      }
+    },
+    {
+      "url": "https://tendril.studio/",
+      "category": "Products",
+      "send_time": 1777400192,
+      "ogp": {
+        "title": "Tendril",
+        "description": "Tendril is a global creative studio. We use design, animation, and technology to tell transformational stories for the world’s leading organizations.",
+        "image": "https://tendril.studio"
+      }
+    },
+    {
+      "url": "https://mondlicht-studios.de/product_2025",
+      "category": "Products",
+      "send_time": 1777400217,
+      "ogp": {
+        "title": "Mondlicht Studios",
+        "description": "We create product 3D illustrations, key visuals and animations that fit your project's requirements and budget, be it through Unreal or traditional CGI.",
+        "image": "https://static.tildacdn.com/tild6631-6635-4765-a564-626461633739/PRODUCT_copy.jpg"
+      }
+    },
+    {
+      "url": "https://www.bloomimages.de/",
+      "category": "Architecture",
+      "send_time": 1777400286,
+      "ogp": {
+        "title": "Bloomimages - Architecture Visualization",
+        "description": "Images of the future. Architecture visualization, Real Estate Marketing, product visualization, Hamburg + Berlin",
+        "image": ""
+      }
+    },
+    {
+      "url": "https://beautyandthebit.com/",
+      "category": "Architecture",
+      "send_time": 1777400321,
+      "ogp": {
+        "title": "Architectural Visualization Studio - Beauty & The Bit",
+        "description": "B&TB is an Architectural Visualization studio. We work around the world for the finest architecture studios. Do you want to see our work?",
+        "image": ""
+      }
+    },
+    {
+      "url": "https://brickvisual.com/works/",
+      "category": "Architecture",
+      "send_time": 1777400352,
+      "ogp": {
+        "title": "Works - Brick Visual",
+        "description": "The selection of commissioned projects will provide you with an overview of what Brick’s team of nearly 100 experts is capable of doing.",
+        "image": "https://brickvisual.com/wp-content/uploads/2020/01/cover-kicsi.jpg"
+      }
+    }
+  ],
+  "updated_at": "2026-04-28 18:30 UTC"
 }
