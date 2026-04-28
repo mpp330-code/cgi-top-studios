@@ -12,7 +12,7 @@
     },
     {
       "url": "https://futuredeluxe.com/",
-      "category": "未記入",
+      "category": "Products",
       "send_time": 1777400010,
       "ogp": {
         "title": "FutureDeluxe",
@@ -77,7 +77,7 @@
       "ogp": {
         "title": "Analog Studio | Independent Creative VFX Studio London",
         "description": "Analog is a London-based VFX studio creating groundbreaking visual effects and real-time experiences. Award-winning, collaborative, and innovative.",
-        "image": ""
+        "image": "https://iad.microlink.io/b6R0f7CUo-eqUyDI27EvIMt6UHMOlOtQ2NLkR2UOGfGCPEbYWaRRJTxgVp07V6jT0YzkwLNRY7fJzKkeMv67FQ.png"
       }
     },
     {
@@ -117,7 +117,7 @@
       "ogp": {
         "title": "Architectural Visualization Studio - Beauty & The Bit",
         "description": "B&TB is an Architectural Visualization studio. We work around the world for the finest architecture studios. Do you want to see our work?",
-        "image": ""
+        "image": "https://iad.microlink.io/QhWd6uooqDOpSYUB7gQyN1CLLLTWNvM8rT8Gal1AM8ZPl1ti9tLltnkS1LOrFX6EBtnvHNs0OiHCi57YIyEU2g.png"
       }
     },
     {
@@ -131,5 +131,5 @@
       }
     }
   ],
-  "updated_at": "2026-04-28 18:30 UTC"
+  "updated_at": "2026-04-28 18:46 UTC"
 }
