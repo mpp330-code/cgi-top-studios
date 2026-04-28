@@ -84,6 +84,23 @@ def fetch_ogp(url, cache):
     except Exception as e:
         print(f"  OGP取得失敗: {url} — {e}")
 
+    # OGP画像がない場合はmicrolinkでスクリーンショットを取得
+    if not ogp["image"]:
+        try:
+            ml_resp = requests.get(
+                "https://api.microlink.io",
+                params={"url": url, "screenshot": "true"},
+                timeout=15,
+            )
+            ml_data = ml_resp.json()
+            if ml_data.get("status") == "success":
+                screenshot = ml_data.get("data", {}).get("screenshot", {})
+                if screenshot.get("url"):
+                    ogp["image"] = screenshot["url"]
+                    print(f"  スクリーンショット取得: {url}")
+        except Exception as e:
+            print(f"  スクリーンショット取得失敗: {url} — {e}")
+
     cache[url] = ogp
     return ogp
 
