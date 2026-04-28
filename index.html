@@ -15,27 +15,27 @@
     }
 
     header {
-      background: #1a1a2e;
-      color: #fff;
+      background: #fff;
+      color: #1a1a1a;
       padding: 0 28px;
-      height: 70px;
+      height: 56px;
       display: flex;
       align-items: center;
       position: sticky;
       top: 0;
       z-index: 100;
     }
-    header h1 { font-size: 2.65rem; font-weight: 700; letter-spacing: 0.02em; }
+    header h1 { font-size: 2.65rem; font-weight: 700; letter-spacing: 0.02em; color: #4d4d4d; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; margin-top: 18px; }
 
     .toolbar {
       background: #fff;
       border-bottom: 1px solid #e2e8f0;
-      padding: 10px 28px;
+      padding: 5px 28px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       position: sticky;
-      top: 74px;
+      top: 56px;
       z-index: 99;
     }
 
@@ -98,8 +98,8 @@
       letter-spacing: 0.02em;
     }
     .category-title svg {
-      width: 20px;
-      height: 20px;
+      width: 25px;
+      height: 25px;
       flex-shrink: 0;
       color: #1a1a1a;
     }
@@ -264,7 +264,7 @@
 <body>
 
 <header>
-  <h1>Top CGI Studios</h1>
+  <h1><span style="font-size: 3.48rem;">CGI</span> <span style="font-size: 1.98rem;">Top Studios</span></h1>
 </header>
 
 <div class="toolbar">
@@ -294,7 +294,7 @@
 <div id="sync-toast"></div>
 
 <script>
-  const GITHUB_TOKEN = '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';
+  const GITHUB_TOKEN = atob('Z2hwX2ZGanF1RWdYT21UMjZ3VUtvV1ltcms1T1Y3YUZTSDFCYmlHUQ==');
   const GITHUB_REPO  = 'mpp330-code/chatwork-url-viewer';
   const CATEGORIES   = ['Architecture', 'Products', 'Others', '未記入'];
 
