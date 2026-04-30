@@ -353,39 +353,6 @@
 </header>
 
 
-<div id="star-demo" style="background:#f5f6fa;padding:28px 28px 32px;border-bottom:1px solid #e2e8f0;">
-  <p style="font-size:0.8rem;color:#94a3b8;margin-bottom:16px;">★ 評価機能プレビュー — クリックして試せます</p>
-  <div style="display:grid;grid-template-columns:repeat(3,200px);gap:16px;">
-
-    <a class="card" href="#" onclick="return false;" style="cursor:default;">
-      <div class="card-thumb-placeholder"><img class="favicon-large" src="https://www.google.com/s2/favicons?domain=mir.no&sz=128"></div>
-      <div class="card-body">
-        <div class="card-company"><span class="company-name">mir</span></div>
-        <div class="card-url">https://www.mir.no/</div>
-      </div>
-      <div class="card-stars" id="demo-stars-1"></div>
-    </a>
-
-    <a class="card" href="#" onclick="return false;" style="cursor:default;">
-      <div class="card-thumb-placeholder"><img class="favicon-large" src="https://www.google.com/s2/favicons?domain=brickvisual.com&sz=128"></div>
-      <div class="card-body">
-        <div class="card-company"><span class="company-name">brickvisual</span></div>
-        <div class="card-url">https://brickvisual.com/</div>
-      </div>
-      <div class="card-stars" id="demo-stars-2"></div>
-    </a>
-
-    <a class="card" href="#" onclick="return false;" style="cursor:default;">
-      <div class="card-thumb-placeholder"><img class="favicon-large" src="https://www.google.com/s2/favicons?domain=bloomimages.de&sz=128"></div>
-      <div class="card-body">
-        <div class="card-company"><span class="company-name">bloomimages</span></div>
-        <div class="card-url">https://bloomimages.de/</div>
-      </div>
-      <div class="card-stars" id="demo-stars-3"></div>
-    </a>
-
-  </div>
-</div>
 
 <main>
   <div id="error-msg"></div>
@@ -497,17 +464,62 @@
     updateDisplay(current);
   }
 
-  function initDemoStars() {
-    const defaults = { 'demo-stars-1': 0, 'demo-stars-2': 3.5, 'demo-stars-3': 5 };
-    Object.entries(defaults).forEach(([id, rating]) => {
-      const el = document.getElementById(id);
-      if (el) createStarWidget(el, rating, () => {});
-    });
-  }
-  initDemoStars();
   /* ---- End star rating ---- */
 
+  /* ---- Ratings (GitHub storage) ---- */
+  let ratings = {};
+  let ratingsSha = null;
+  let saveTimer = null;
+
+  async function loadRatings() {
+    try {
+      const res = await fetch(
+        `https://api.github.com/repos/${GITHUB_REPO}/contents/ratings.json`,
+        { headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' } }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        ratingsSha = data.sha;
+        ratings = JSON.parse(atob(data.content.replace(/\n/g, '')));
+      }
+    } catch (e) {
+      ratings = {};
+    }
+  }
+
+  function saveRatings() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      try {
+        const json = JSON.stringify(ratings, null, 2);
+        const content = btoa(unescape(encodeURIComponent(json)));
+        const body = { message: '★ 評価を更新', content };
+        if (ratingsSha) body.sha = ratingsSha;
+        const res = await fetch(
+          `https://api.github.com/repos/${GITHUB_REPO}/contents/ratings.json`,
+          {
+            method: 'PUT',
+            headers: {
+              'Authorization': `token ${GITHUB_TOKEN}`,
+              'Accept': 'application/vnd.github.v3+json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+          }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          ratingsSha = data.content.sha;
+        }
+      } catch (e) {
+        console.error('評価の保存に失敗:', e);
+      }
+    }, 800);
+  }
+  /* ---- End ratings ---- */
+
   async function load() {
+    await loadRatings();
     try {
       const res = await fetch('data.json?_=' + Date.now());
       if (!res.ok) throw new Error('data.json の取得に失敗しました');
@@ -610,6 +622,16 @@
     body.appendChild(urlEl);
 
     a.appendChild(body);
+
+    const stars = document.createElement('div');
+    stars.className = 'card-stars';
+    createStarWidget(stars, ratings[item.url] || 0, (v) => {
+      if (v === 0) delete ratings[item.url];
+      else ratings[item.url] = v;
+      saveRatings();
+    });
+    a.appendChild(stars);
+
     return a;
   }
 
